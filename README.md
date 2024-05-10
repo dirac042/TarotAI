@@ -5,14 +5,14 @@ made by brAIns
 ## Implement Calendar
 
 - 05/08
-  - constructing barebone code
-  - initialize git
+  - ~~constructing barebone code
+  - ~~initialize git
 - 05/09
   - AI API integration
   - Google Cloud API Registration (free $300 credit available)
 - 05/10
-  - implement simple functions
-  - construct css: list of all tarot card + ASCII art
+  - ~~implement simple functions
+  - ~~construct csv: list of all tarot card + ASCII art
 - 05/11
   - implement advanced functions
     - link generation by Google Cloud API
