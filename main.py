@@ -121,30 +121,45 @@ if card_num == 3:
     list_wo_second = list_wo_first[:second_card] + list_wo_first[second_card + 1 :]
     third_tarot_card = list_wo_second[int(third_card)]
 
-# Debugging
-
-print(
-    f"Len1 = {len(list_tarot_deck_mixed)}, Len2 = {len(list_wo_first)}, Len3 = {len(list_wo_second)}"
-)
 
 ## Interpretation
 
+first_card_image = ""
+
+print(
+    f"""
+너가 처음으로 뽑은 카드는 {first_tarot_card[1]} (이)야.
+너가 두번째로 뽑은 카드는 {second_tarot_card[1]} (이)야. 
+너가 세번째로 뽑은 카드는 {third_tarot_card[1]} (이)야.
+    """
+)
+
 # card_image = ...
-# first_card_tarot = rand_tarot[first_card]
-# second_card_tarot = rand_tarot[second_card]
-# ...
 
 # interpretation_word = AI(카드가 뜻하는 의미 (단어로))
 # interpretation_concern = AI(카드의 의미를 concern의 맥락에서 해석)
 
-# print(f"너가 뽑은 카드는 {first_card_tarot}야.  {}")
-
 ## Interpretation - Overall
 
 # interpretation_overall = AI(interpretation_concern들을 요약:  조언,  주의해야할 점)
+print(
+    f"""
+결과를 요약해보면:  ...
 
+    """
+)
 
 ## Rating (strings)
+
+print(
+    f"""
+=====================================================================
+여기까지가 내가 본 미래의 전부야.  
+어땠어?  결과가 마음에 들었으면 좋겠네.  
+만족도를 0에서 5까지 매긴다면,  내게 몇 점을 줄 것 같아?
+
+"""
+)
 
 rating = int(input("0부터 5까지 점수를 매겨주세요:  "))
 
