@@ -16,6 +16,7 @@ def slow_type(text, delay=0.1):
 ## Importing Classes
 from opening import OpeningMessage
 from PandasToList import PandasToList
+from cards import cards
 
 ## Language Setting
 
@@ -43,13 +44,13 @@ slow_type(
 학교생활 많이 힘들지? 이렇게 시간 내서 점 보러 와줘서 고마워. 
 시작하기 전에, 네 이름을 알려줘. 진짜 이름 말고, 가명으로 적어도 돼.
 """,
-    0.1,
+    0.05,
 )
 name = input("이름(가명)을 적어줘:  ")
 
 ## Concern
 print("\n================================================================")
-slow_type(f"\n네 이름은 {name}이구나.  반가워!", 0.1)
+slow_type(f"\n네 이름은 {name}이구나.  반가워!", 0.05)
 slow_type(
     """
 그럼 이제, 네 고민을 알려줘.
@@ -57,7 +58,7 @@ slow_type(
 '요즘 공부가 잘 안 돼' 라던가 '내가 연애를 할 수 있을까' 처럼
 특정 고민을 적어줘도 좋아.
     """,
-    0.1,
+    0.05,
 )
 
 concern = input("너의 고민은 뭐니?  ")
@@ -65,7 +66,7 @@ concern = input("너의 고민은 뭐니?  ")
 
 ## Card Selection - Info
 
-card_num = 3
+card_num = 1
 # AI가 card_num을 정한다 ->  1  or 3
 card_num_desc = ""
 # AI가 n번째 카드가 뜻하는 것을 적는다 (과거-현재-미래)
@@ -81,7 +82,7 @@ slow_type(
 
 (계속하려면 Enter를 누르세요.)
 """,
-    0.1,
+    0.05,
 )
 
 
@@ -101,17 +102,17 @@ slow_type(
 마음을 가다듬고,  맨 위에서 몇번째 카드를 뽑을지 적어줘.
 
 """,
-    0.1,
+    0.05,
 )
 
 
 first_card = int(input("0부터 43까지의 수를 적으세요:  "))
 if card_num == 3:
-    slow_type("첫번째 카드를 뽑았어,  그럼 다음 카드를 뽑아볼까?", 0.1)
+    slow_type("첫번째 카드를 뽑았어,  그럼 다음 카드를 뽑아볼까?", 0.05)
     second_card = int(input("0부터 42까지의 수를 적으세요:  "))
     if second_card > 43:
         print("숫자를 잘못 적은 것 같은데?  다시 적어줘.")
-    slow_type("이제 마지막으로 세번째 카드를 뽑아보자.", 0.1)
+    slow_type("이제 마지막으로 세번째 카드를 뽑아보자.", 0.05)
     third_card = int(input("0부터 41까지의 수를 적으세요:  "))
 
 
@@ -124,7 +125,7 @@ slow_type(
 
 (계속하려면 Enter를 누르세요.)
     """,
-    0.1,
+    0.05,
 )
 
 first_tarot_card = list_tarot_deck_mixed[int(first_card)]
@@ -139,16 +140,45 @@ if card_num == 3:
 
 ## Interpretation
 
-first_card_image = ""
+first_tarot_card_ascii = ""
+for n in range(len(list_tarot_deck_mixed)):
+    if first_tarot_card[0] == cards[n]["name"]:
+        first_tarot_card_ascii = cards[n]["card"]
+
+print(first_tarot_card_ascii + "\n")
 
 slow_type(
     f"""
-너가 처음으로 뽑은 카드는 {first_tarot_card[1]} (이)야.
-너가 두번째로 뽑은 카드는 {second_tarot_card[1]} (이)야. 
-너가 세번째로 뽑은 카드는 {third_tarot_card[1]} (이)야.
-    """,
-    0.1,
+너가 처음으로 뽑은 카드는 {first_tarot_card[1]} (이)야. 
+""",
+    0.05,
 )
+
+if card_num == 3:
+    for n in range(len(list_wo_first)):
+        if second_tarot_card[0] == cards[n]["name"]:
+            second_tarot_card_ascii = cards[n]["card"]
+
+    for n in range(len(list_wo_second)):
+        if third_tarot_card[0] == cards[n]["name"]:
+            third_tarot_card_ascii = cards[n]["card"]
+
+    print(second_tarot_card_ascii + "\n")
+    slow_type(
+        f"""
+    너가 두번째로 뽑은 카드는 {second_tarot_card[1]} (이)야.
+        """,
+        0.05,
+    )
+
+    print(third_tarot_card_ascii + "\n")
+    slow_type(
+        f"""
+    너가 세번째로 뽑은 카드는 {third_tarot_card[1]} (이)야.
+    """,
+        0.05,
+    )
+
 
 # card_image = ...
 
@@ -177,7 +207,7 @@ slow_type(
 만족도를 0에서 5까지 매긴다면,  내게 몇 점을 줄 것 같아?
 
 """,
-    0.1,
+    0.05,
 )
 
 rating = int(input("0부터 5까지 점수를 매겨주세요:  "))
@@ -206,7 +236,7 @@ slow_type(
 
 ( 끝내려면 Enter를 눌러주세요.  감사합니다.)
 """,
-    0.1,
+    0.05,
 )
 
 # jpg automation program
