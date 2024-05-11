@@ -13,10 +13,14 @@ def slow_type(text, delay=0.1):
     print()
 
 
+delay_num = 0.01
+
 ## Importing Classes
 from opening import OpeningMessage
 from PandasToList import PandasToList
 from cards import cards
+from pdf_converter import PDF
+
 
 ## Language Setting
 
@@ -64,13 +68,13 @@ slow_type(
 
 시작하기 전에, 네 이름을 알려줘. 진짜 이름 말고, 가명으로 적어도 돼.
 """,
-    0.05,
+    delay_num,
 )
 name = input("이름(가명)을 적어줘:  ")
 
 ## Concern
 print("\n================================================================")
-slow_type(f"\n네 이름은 {name}이구나.  반가워!", 0.05)
+slow_type(f"\n네 이름은 {name}이구나.  반가워!", delay_num)
 slow_type(
     """
 그럼 이제, 네 고민을 알려줘.
@@ -78,7 +82,7 @@ slow_type(
 '요즘 공부가 잘 안 돼' 라던가 '내가 연애를 할 수 있을까' 처럼
 특정 고민을 적어줘도 좋아.
     """,
-    0.05,
+    delay_num,
 )
 
 concern = input("너의 고민은 뭐니?  ")
@@ -101,7 +105,7 @@ slow_type(
 이해했어?  잘 모르겠으면 카드를 해석할 때  다시 알려줄게.
 
 """,
-    0.05,
+    delay_num,
 )
 next = input("계속하려면 Enter를 누르세요. \n")
 
@@ -124,17 +128,17 @@ slow_type(
 마음을 가다듬고,  맨 위에서 몇번째 카드를 뽑을지 적어줘.
 
 """,
-    0.05,
+    delay_num,
 )
 
 
 first_card = int(input("0부터 43까지의 수를 적으세요:  "))
 if card_num == 3:
-    slow_type("첫번째 카드를 뽑았어,  그럼 다음 카드를 뽑아볼까?", 0.05)
+    slow_type("첫번째 카드를 뽑았어,  그럼 다음 카드를 뽑아볼까?", delay_num)
     second_card = int(input("0부터 42까지의 수를 적으세요:  "))
     if second_card > 43:
         print("숫자를 잘못 적은 것 같은데?  다시 적어줘.")
-    slow_type("이제 마지막으로 세번째 카드를 뽑아보자.", 0.05)
+    slow_type("이제 마지막으로 세번째 카드를 뽑아보자.", delay_num)
     third_card = int(input("0부터 41까지의 수를 적으세요:  "))
 
 
@@ -145,7 +149,7 @@ slow_type(
 이제 카드를 하나씩 살펴보면서 미래를 살짝 엿보도록 하자!
 준비됐어?
 """,
-    0.05,
+    delay_num,
 )
 
 next2 = input("계속하려면 Enter를 누르세요  \n")
@@ -173,7 +177,7 @@ slow_type(
     f"""
 너가 처음으로 뽑은 카드는 {first_tarot_card[1]} (이)야. 
 """,
-    0.05,
+    delay_num,
 )
 
 next3 = input("계속하려면 Enter 키를 눌러주세요  \n ")
@@ -192,7 +196,7 @@ if card_num == 3:
         f"""
     너가 두번째로 뽑은 카드는 {second_tarot_card[1]} (이)야.
         """,
-        0.05,
+        delay_num,
     )
 
     print(third_tarot_card_ascii + "\n")
@@ -200,11 +204,8 @@ if card_num == 3:
         f"""
     너가 세번째로 뽑은 카드는 {third_tarot_card[1]} (이)야.
     """,
-        0.05,
+        delay_num,
     )
-
-
-# card_image = ...
 
 # interpretation_word = AI(카드가 뜻하는 의미 (단어로))
 # interpretation_concern = AI(카드의 의미를 concern의 맥락에서 해석)
@@ -217,7 +218,7 @@ slow_type(
 결과를 요약해보면:  ...
 
     """,
-    0.05,
+    delay_num,
 )
 
 next4 = input("계속하려면 Enter  키를 눌러주세요  \n")
@@ -233,7 +234,7 @@ slow_type(
 만족도를 0에서 5까지 매긴다면,  내게 몇 점을 줄 것 같아?
 
 """,
-    0.05,
+    delay_num,
 )
 
 rating = int(input("0부터 5까지 점수를 매겨주세요:  "))
@@ -242,6 +243,22 @@ rating = int(input("0부터 5까지 점수를 매겨주세요:  "))
 ## Ending
 
 qr_code = ""
+
+
+# pdf_convert
+
+pdf = PDF()
+pdf.add_page()
+
+# Including variables:
+# first_tarot_card_ascii, #first_tarot_card[0] (Eng), [1] (Kor)
+# interpretation_concern
+# interpretation_word
+# interpretation_overall
+
+pdf.multi_cell(10, 10, first_tarot_card_ascii)
+pdf.output("test.pdf")
+
 
 print("\n===============================================================")
 slow_type(
@@ -261,7 +278,7 @@ slow_type(
 와줘서 고마워.  다음 기회가 되면 또 보자.  안녕!
 
 """,
-    0.05,
+    delay_num,
 )
 
 next5 = input("끝내려면 Enter 키를 눌러주세요.  감사합니다.")
