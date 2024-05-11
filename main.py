@@ -267,8 +267,27 @@ slow_type(
 평가해줘서 고마워.
 이제 헤어질  시간이야.
 
-아 참,  오늘 본 점의 결과를 내가 이미지 파일로 만들어봤어.
+아 참, 가기 전에 이메일 주소 알려줄 수 있을까? 
 
+오늘 본 점의 결과를 pdf 파일로 정리해서 이메일로 보내줄게!
+
+""",
+    delay_num,
+)
+
+while True:
+    try:
+        email = input("이메일 주소를 적어주세요:  ")
+        email_confirm = input(f"{email} 이게 너의 이메일 주소가 맞아?  (Y/N): ")
+
+        if email_confirm == "Y":
+            break
+    except:
+        pass
+
+
+slow_type(
+    f"""
 {qr_code}
 이 QR코드를 스마트폰으로 찍어봐!
 
