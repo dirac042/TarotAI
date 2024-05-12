@@ -17,7 +17,7 @@ class OpeningMessage:
         return the content to the variable 'msg'
         """
         try:
-            with open(self.__filename, "r") as opening_message:
+            with open(self.__filename, "r", encoding="utf-8") as opening_message:
                 msg = opening_message.read()
                 return msg
         except FileNotFoundError:
