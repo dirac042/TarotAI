@@ -20,6 +20,10 @@ from opening import OpeningMessage
 from PandasToList import PandasToList
 from cards import cards
 from pdf_converter import PDF
+from emailsender import EmailSender
+from secret import sender_email, password
+
+email_sender = EmailSender(sender_email, password)
 
 
 ## Language Setting
@@ -245,19 +249,11 @@ rating = int(input("0부터 5까지 점수를 매겨주세요:  "))
 qr_code = ""
 
 
-# pdf_convert
-
-pdf = PDF()
-pdf.add_page()
-
 # Including variables:
 # first_tarot_card_ascii, #first_tarot_card[0] (Eng), [1] (Kor)
 # interpretation_concern
 # interpretation_word
 # interpretation_overall
-
-pdf.multi_cell(10, 10, first_tarot_card_ascii)
-pdf.output("test.pdf")
 
 
 print("\n===============================================================")
@@ -278,18 +274,40 @@ slow_type(
 while True:
     try:
         email = input("이메일 주소를 적어주세요:  ")
-        email_confirm = input(f"{email} 이게 너의 이메일 주소가 맞아?  (Y/N): ")
+        email_confirm = input(f"{email}\n 이게 너의 이메일 주소가 맞아?  (Y/N): ")
 
         if email_confirm == "Y":
             break
     except:
         pass
 
+# ------------------------------- email 보내기
+receiver_email = email
+# 이곳에 생성된 pdf 변수명을 넣어주세요.
+result_pdf = "test.pdf"
+subject = "정바융 Merge TarotAI 결과"
+body = f"""
+{name}에게,
+
+안녕,  {name}! 
+오늘 타로 보러 와줘서 다시 한 번 고마워!
+타로 결과를 pdf로 만들어봤으니,  첨부파일을 확인해봐.
+그럼,  안녕!
+
+TarotAI 올림.
+"""
+
+email_sender.send_email(receiver_email, subject, body, result_pdf)
+
+#  -------------------------------------------
+
+print("이메일 보내는 중...  \n")
 
 slow_type(
     f"""
-{qr_code}
-이 QR코드를 스마트폰으로 찍어봐!
+
+{receiver_email}
+이 주소로 이메일을 보냈어!  나중에 꼭 확인해봐!
 
 아직 나도 타로에 대해 배우는 중이라 복채는 받지 않을게.
 가기 전에 부스 도장 받는 거 잊지 말고!
@@ -301,10 +319,3 @@ slow_type(
 )
 
 next5 = input("끝내려면 Enter 키를 눌러주세요.  감사합니다.")
-
-# jpg automation program
-# Google Cloud API 사용해서 jpg 파일 저장 ->  link 생성
-# QRCode Generator -> link embed
-
-
-## ...repeat
