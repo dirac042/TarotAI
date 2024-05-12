@@ -16,9 +16,16 @@ class OpeningMessage:
         open the file that is defined in __init__
         return the content to the variable 'msg'
         """
-        opening_message = open(self.__filename, "r")
-        msg = opening_message.read()
-        return msg
+        try:
+            with open(self.__filename, "r") as opening_message:
+                msg = opening_message.read()
+                return msg
+        except FileNotFoundError:
+            return "File not found"
+        except UnicodeDecodeError:
+            return "File not in UTF-8 format"
+        except Exception as e:
+            return f"Error: {str(e)}"
 
     def close_file(self):
         """

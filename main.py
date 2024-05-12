@@ -150,15 +150,27 @@ slow_type(
     delay_num,
 )
 
+# valid input을 위한 함수
 
-first_card = int(input("0부터 43까지의 수를 적으세요:  "))
+def get_valid_input(prompt, max_value):
+    while True:
+        try:
+            value = int(input(prompt))
+            if 0 <= value <= max_value:
+                return value
+            else:
+                print(f"\n숫자는 0부터 {max_value} 사이로 입력해야 해요. 다시 시도해주세요.")
+        except ValueError:
+            print("\n유효한 숫자를 입력해주세요.")
+
+first_card = get_valid_input("0부터 43까지의 수를 적으세요: ", 43)
+
 if card_num == 3:
-    slow_type("첫번째 카드를 뽑았어,  그럼 다음 카드를 뽑아볼까?", delay_num)
-    second_card = int(input("0부터 42까지의 수를 적으세요:  "))
-    if second_card > 43:
-        print("숫자를 잘못 적은 것 같은데?  다시 적어줘.")
-    slow_type("이제 마지막으로 세번째 카드를 뽑아보자.", delay_num)
-    third_card = int(input("0부터 41까지의 수를 적으세요:  "))
+    slow_type("\n첫번째 카드를 뽑았어,  그럼 다음 카드를 뽑아볼까?", delay_num)
+    second_card = get_valid_input("0부터 42까지의 수를 적으세요: ", 42)
+
+    slow_type("\n이제 마지막으로 세번째 카드를 뽑아보자.", delay_num)
+    third_card = get_valid_input("0부터 41까지의 수를 적으세요: ", 41)
 
 
 ## Card Loading (string)
@@ -368,7 +380,6 @@ while True:
 
 # ------------------------------- email 보내기
 receiver_email = email
-# 이곳에 생성된 pdf 변수명을 넣어주세요.
 result_pdf = f"{name}_TarotAI_Result.pdf"
 subject = "정바융 Merge TarotAI 결과"
 body = f"""

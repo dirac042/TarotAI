@@ -21,10 +21,10 @@ class PDF(FPDF):
             current_dir, "JetBrainsMono", "JetBrainsMonoNerdFont-Italic.ttf"
         )
         korean_font_path = os.path.join(
-            current_dir, "S_Core_Dream", "SCDream2.otf"
+            current_dir, "S_Core_Dream", "SCDream2.ttf"
         )
         korean_bold_font_path = os.path.join(
-            current_dir, "S_Core_Dream", "SCDream5.otf"
+            current_dir, "S_Core_Dream", "SCDream5.ttf"
         )
 
         self.add_font("JetBrainsMono", "", regular_font_path, uni=True)
