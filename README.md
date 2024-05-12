@@ -26,3 +26,7 @@ git clone https://github.com/dirac042/TarotAI.git
    ```
 
 3. run 'main.py' via Shell.
+
+```shell
+python3 main.py
+```
