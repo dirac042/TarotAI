@@ -1,6 +1,5 @@
 import pandas as pd
 
-
 class PandasToList:
     def up_deck(self, up_file):
         df_up_tarot = pd.read_csv(up_file)
