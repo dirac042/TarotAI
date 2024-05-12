@@ -179,7 +179,7 @@ if card_num == 3:
     list_wo_first = (
         list_tarot_deck_mixed[:first_card] + list_tarot_deck_mixed[first_card + 1 :]
     )
-    second_tarot_card = list_tarot_deck_mixed[int(second_card)]
+    second_tarot_card = list_wo_first[int(second_card)]
     list_wo_second = list_wo_first[:second_card] + list_wo_first[second_card + 1 :]
     third_tarot_card = list_wo_second[int(third_card)]
 
@@ -297,23 +297,17 @@ rating = int(input("0부터 5까지 점수를 매겨주세요:  "))
 
 
 # Debugging ----------------------------------------------------------------
-interpretation_concern_first = "Lorem ipsum dolor sit amet, consectetur adipiscing \
-    elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+interpretation_concern_first = "한글테스트한글테스트한글테스트한글테스트한글테스트\
+    한글테스트한글테스트한글테스트한글테스트한글테스트한글테스트"
 
-interpretation_concern_second = "Lorem ipsum dolor sit amet, consectetur adipiscing \
-    elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+interpretation_concern_second = "한글테스트한글테스트한글테스트한글테스트한글테스트\
+    한글테스트한글테스트한글테스트한글테스트한글테스트한글테스트"
 
-interpretation_concern_third = "Lorem ipsum dolor sit amet, consectetur adipiscing \
-    elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+interpretation_concern_third = "한글테스트한글테스트한글테스트한글테스트한글테스트\
+    한글테스트한글테스트한글테스트한글테스트한글테스트한글테스트"
 
-interpretation_overall = "Lorem ipsum dolor sit amet, consectetur adipiscing \
-    elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-
-interpretation_word_first = "Lorem ipsum dolor sit amet, consectetur adipiscing"
-
-interpretation_word_second = "Lorem ipsum dolor sit amet, consectetur adipiscing"
-
-interpretation_word_third = "Lorem ipsum dolor sit amet, consectetur adipiscing"
+interpretation_overall = "한글테스트한글테스트한글테스트한글테스트한글테스트\
+    한글테스트한글테스트한글테스트한글테스트한글테스트한글테스트"
 # --------------------------------------------------------------------------
 
 
@@ -325,20 +319,17 @@ pdf.add_concern(concern)
 pdf.add_block(
     first_tarot_card_ascii,
     first_tarot_card[0],
-    interpretation_word_first,
     interpretation_concern_first,
 )
 if card_num == 3:
     pdf.add_block(
         second_tarot_card_ascii,
         second_tarot_card[0],
-        interpretation_word_second,
         interpretation_concern_second,
     )
     pdf.add_block(
         third_tarot_card_ascii,
         third_tarot_card[0],
-        interpretation_word_third,
         interpretation_concern_third,
     )
 pdf.add_result(interpretation_overall)

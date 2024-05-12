@@ -20,13 +20,21 @@ class PDF(FPDF):
         italic_font_path = os.path.join(
             current_dir, "JetBrainsMono", "JetBrainsMonoNerdFont-Italic.ttf"
         )
+        korean_font_path = os.path.join(
+            current_dir, "S_Core_Dream", "SCDream2.otf"
+        )
+        korean_bold_font_path = os.path.join(
+            current_dir, "S_Core_Dream", "SCDream5.otf"
+        )
 
         self.add_font("JetBrainsMono", "", regular_font_path, uni=True)
         self.add_font("JetBrainsMono", "B", bold_font_path, uni=True)
         self.add_font("JetBrainsMono", "I", italic_font_path, uni=True)
+        self.add_font("SCDream2", "", korean_font_path, uni=True)
+        self.add_font("SCDream5", "", korean_bold_font_path, uni=True)
 
     def header(self):
-        self.set_font("JetBrainsMono", "B", 20)
+        self.set_font("SCDream5", "", 20)
         self.cell(0, 10, f"{self.name}'s Tarot Result", 0, 1, "C")
         self.set_font("JetBrainsMono", "", 10)
         self.cell(0, 10, "2024-05-14", 0, 1, "R")
@@ -38,37 +46,34 @@ class PDF(FPDF):
 
     def add_concern(self, concern):
         self.point_return()
-        self.set_font("JetBrainsMono", "B", 20)
+        self.set_font("SCDream5", "", 20)
         self.multi_cell(0, 10, f"concern: {concern}")
 
         self.point_return()
         self.add_y(max(15, (len(concern) + 20) // 45 * 15))
 
-    def add_block(self, ascii_card, card_name, key_word, comment):
+    def add_block(self, ascii_card, card_name, comment):
         if self.current_y >= 170:
             self.add_page()
             self.current_y = 30
         art = "\n".join(line.strip() for line in ascii_card.split("\n"))
         self.point_return()
-        self.set_font("JetBrainsMono", "", 12)
+        self.set_font("JetBrainsMono","",12)
         self.multi_cell(0, 5, art)
         self.point_return()
         self.add_y(5)
         self.add_x(70)
-        self.set_font("JetBrainsMono", "B", 15)
+        self.set_font("JetBrainsMono","B",15)
         self.multi_cell(0, 5, card_name)
         self.add_y(10)
-        self.set_font("JetBrainsMono", "B", 13)
-        self.multi_cell(0, 5, key_word)
-        self.add_y(10)
         self.add_x(0)
-        self.set_font("JetBrainsMono", "", 13)
+        self.set_font("SCDream2","",13)
         self.multi_cell(0, 5, comment)
 
         self.add_x(-70)
         self.point_return()
-        self.add_y(max(100, (len(comment) // 35 + len(key_word) // 35 + 3) * 5))
-        for i in range(((len(comment) // 35 + len(key_word) // 35 + 3) * 5) // 275):
+        self.add_y(max(100,(len(comment)//35 + len(card_name)//35 + 3)*5))
+        for i in range(((len(comment)//35 + len(card_name)//35 + 3)*5 )// 275):
             self.add_page()
             self.current_y = 30
         self.block_num += 1
@@ -76,8 +81,11 @@ class PDF(FPDF):
     def add_result(self, result):
         self.point_return()
         self.add_y(20)
-        self.set_font("JetBrainsMono", "B", 17)
-        self.multi_cell(0, 7, f"result: {result}")
+        self.set_font("SCDream5", "", 17)
+        self.multi_cell(0, 7, "Result")
+        self.add_y(10)
+        self.set_font("SCDream2", "", 13)
+        self.multi_cell(0, 7, result)
 
         self.point_return()
         self.add_y(max(15, (len(result) + 20) // 45 * 15))
