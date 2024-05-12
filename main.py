@@ -4,19 +4,22 @@ import time
 import sys
 import os
 
+
 # clear screen function
 def clear_screen():
-    os.system('cls' if os.name == 'nt' else 'clear')
+    os.system("cls" if os.name == "nt" else "clear")
 
 
 ## slow_type for string output
 def slow_type(text, delay=0.1):
     for char in text:
         sys.stdout.write(char)
-        sys.stdout.flush()
+        sys.stdout.flush() 
         time.sleep(delay)
     print()
-delay_num = 0.05    # 텍스트 딜레이 (0에 가까울수록 빨라짐)
+
+
+delay_num = 0.01  # 텍스트 딜레이 (0에 가까울수록 빨라짐)
 
 ## Importing Classes
 from opening import OpeningMessage
@@ -24,7 +27,7 @@ from PandasToList import PandasToList
 from cards import cards
 from pdf_converter import PDF
 from emailsender import EmailSender
-from secret import sender_email, password   # .gitIgnore에 추가됨.
+from secret import sender_email, password  # .gitIgnore에 추가됨.
 
 email_sender = EmailSender(sender_email, password)
 
@@ -36,7 +39,7 @@ email_sender = EmailSender(sender_email, password)
 
 ## Before the Execution (String file)
 clear_screen()
-print('시작하기 전에...  \n')
+print("시작하기 전에...  \n")
 m = OpeningMessage()
 m.__init__(filename="BeforetheExecution.txt")
 print(m.open_file())
@@ -69,7 +72,7 @@ print(
 """
 )
 slow_type(
-"""
+    """
 
 안녕? 나는 오늘 너에게 잠깐이나마 미래를 보여줄 인공지능 TarotAI야.
 
@@ -78,10 +81,9 @@ slow_type(
 시작하기 전에, 네 이름을 알려줘. 진짜 이름 말고, 가명으로 적어도 돼.
 
 """,
-delay_num,
+    delay_num,
 )
 name = input("이름(가명)을 적어줘:  ")
-
 
 
 ## Concern
@@ -89,7 +91,7 @@ clear_screen()
 print("================================================================")
 slow_type(f"\n네 이름은 {name}이구나.  반가워!", delay_num)
 slow_type(
-"""
+    """
 그럼 이제, 네 고민을 알려줘.
 
 '오늘 내 운세는 어때' 같이 특정 기간의 운세를 봐줄 수도 있고,
@@ -97,7 +99,7 @@ slow_type(
 '요즘 공부가 잘 안 돼' 라던가 '내가 연애를 할 수 있을까' 처럼
 특정 고민을 적어줘도 좋아.
 """,
-delay_num,
+    delay_num,
 )
 
 concern = input("너의 고민은 뭐니? \n\n고민:  ")
@@ -105,7 +107,7 @@ concern = input("너의 고민은 뭐니? \n\n고민:  ")
 
 ## Card Selection - Info
 
-card_num = 1
+card_num = 3
 # AI가 card_num을 정한다 ->  1  or 3
 card_num_desc = ""
 # AI가 n번째 카드가 뜻하는 것을 적는다 (과거-현재-미래)
@@ -135,7 +137,7 @@ random.shuffle(list_tarot_deck_mixed)
 clear_screen()
 print("===================================================================")
 slow_type(
-"""
+    """
 
 좋아,  그럼 이제 카드를 뽑아볼까?
 
@@ -145,7 +147,7 @@ slow_type(
 마음을 가다듬고,  맨 위에서 몇번째 카드를 뽑을지 적어줘.
 
 """,
-delay_num,
+    delay_num,
 )
 
 
@@ -162,7 +164,7 @@ if card_num == 3:
 ## Card Loading (string)
 clear_screen()
 slow_type(
-"""
+    """
 잘했어!
 이제 카드를 하나씩 살펴보면서 미래를 살짝 엿보도록 하자!
 준비됐어?
@@ -205,7 +207,7 @@ for n in range(len(list_tarot_deck_mixed)):
 print(first_tarot_card_ascii + "\n")
 
 slow_type(
-f"""
+    f"""
 너가 처음으로 뽑은 카드는 {first_tarot_card[1]} (이)야. 
 
 이 카드는 {interpretation_word_first}를 뜻하지.
@@ -213,7 +215,7 @@ f"""
 {interpretation_concern_first}
 
 """,
-delay_num,
+    delay_num,
 )
 
 next3 = input("계속하려면 Enter 키를 눌러주세요  \n")
@@ -231,13 +233,13 @@ if card_num == 3:
     print(second_tarot_card_ascii + "\n")
     slow_type(
     f"""
-    너가 두번째로 뽑은 카드는 {second_tarot_card[1]} (이)야.
+너가 두번째로 뽑은 카드는 {second_tarot_card[1]} (이)야.
 
-    이 카드는 {interpretation_word_second}를 뜻해.
+이 카드는 {interpretation_word_second}를 뜻해.
 
-    {interpretation_concern_second}
+{interpretation_concern_second}
 
-    """,
+""",
     delay_num,
     )
 
@@ -246,32 +248,31 @@ if card_num == 3:
     clear_screen()
     print(third_tarot_card_ascii + "\n")
     slow_type(
-    f"""
-    너가 세번째로 뽑은 카드는 {third_tarot_card[1]} (이)야.
+        f"""
+너가 세번째로 뽑은 카드는 {third_tarot_card[1]} (이)야.
 
-    이 카드는 {interpretation_word_third}를 뜻해.
+이 카드는 {interpretation_word_third}를 뜻해.
 
-    {interpretation_concern_third}
+{interpretation_concern_third}
 
-    """,
-    delay_num,
+""",
+        delay_num,
     )
+    next3 = input("계속하려면 Enter 키를 눌러주세요  \n ")
 
-# interpretation_word = AI(카드가 뜻하는 의미 (단어로))
-# interpretation_concern = AI(카드의 의미를 concern의 맥락에서 해석)
+# ---- debugging ----------------------
 
-## Interpretation - Overall
 
-# interpretation_overall = AI(interpretation_concern들을 요약:  조언,  주의해야할 점)
+
 clear_screen()
 slow_type(
-f"""
+    f"""
 결과를 요약해보면,
 
 {interpretation_overall}
 
 """,
-delay_num,
+    delay_num,
 )
 
 next4 = input("계속하려면 Enter  키를 눌러주세요  \n")
@@ -289,10 +290,62 @@ slow_type(
 만족도를 0에서 5까지 매긴다면,  내게 몇 점을 줄 것 같아?
 
 """,
-delay_num,
+    delay_num,
 )
 
 rating = int(input("0부터 5까지 점수를 매겨주세요:  "))
+
+
+# Debugging ----------------------------------------------------------------
+interpretation_concern_first = "Lorem ipsum dolor sit amet, consectetur adipiscing \
+    elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+
+interpretation_concern_second = "Lorem ipsum dolor sit amet, consectetur adipiscing \
+    elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+
+interpretation_concern_third = "Lorem ipsum dolor sit amet, consectetur adipiscing \
+    elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+
+interpretation_overall = "Lorem ipsum dolor sit amet, consectetur adipiscing \
+    elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+
+interpretation_word_first = "Lorem ipsum dolor sit amet, consectetur adipiscing"
+
+interpretation_word_second = "Lorem ipsum dolor sit amet, consectetur adipiscing"
+
+interpretation_word_third = "Lorem ipsum dolor sit amet, consectetur adipiscing"
+# --------------------------------------------------------------------------
+
+
+
+# pdf generation
+pdf = PDF(f"{name}")
+pdf.add_page()
+pdf.add_concern(concern)
+pdf.add_block(
+    first_tarot_card_ascii,
+    first_tarot_card[0],
+    interpretation_word_first,
+    interpretation_concern_first,
+)
+if card_num == 3:
+    pdf.add_block(
+        second_tarot_card_ascii,
+        second_tarot_card[0],
+        interpretation_word_second,
+        interpretation_concern_second,
+    )
+    pdf.add_block(
+        third_tarot_card_ascii,
+        third_tarot_card[0],
+        interpretation_word_third,
+        interpretation_concern_third,
+    )
+pdf.add_result(interpretation_overall)
+pdf.output(f"{name}_TarotAI_Result.pdf")
+
+
+
 
 
 ## Ending
@@ -309,7 +362,7 @@ slow_type(
 오늘 본 점의 결과를 pdf 파일로 정리해서 이메일로 보내줄게!
 
 """,
-delay_num,
+    delay_num,
 )
 
 while True:
@@ -325,7 +378,7 @@ while True:
 # ------------------------------- email 보내기
 receiver_email = email
 # 이곳에 생성된 pdf 변수명을 넣어주세요.
-result_pdf = "test.pdf"
+result_pdf = f"{name}_TarotAI_Result.pdf"
 subject = "정바융 Merge TarotAI 결과"
 body = f"""
 {name}에게,
