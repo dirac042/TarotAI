@@ -27,9 +27,9 @@ from PandasToList import PandasToList
 from cards import cards
 from pdf_converter import PDF
 from emailsender import EmailSender
-from secret import sender_email, password  # .gitIgnore에 추가됨.
+# from secret import sender_email, password  # .gitIgnore에 추가됨.
 
-email_sender = EmailSender(sender_email, password)
+# email_sender = EmailSender(sender_email, password)
 
 
 ## Language Setting
@@ -203,23 +203,14 @@ else:
     reader.set_cards([first_tarot_card])
 
 ## Interpretation
-reader.set_meaning()
-reader.set_interpretation()
-reader.set_interpretation_overall()
 
 # AI의 Tarot Interpretation -----------------------------------
+reader.set_meaning_by_idx(0)
+reader.set_interpretation_by_idx(0)
 interpretations = reader.cards
 
 interpretation_word_first = interpretations[0]["meaning"]
 interpretation_concern_first = interpretations[0]["interpretation"]
-
-if card_num == 3:
-    interpretation_word_second = interpretations[1]["meaning"]
-    interpretation_word_third = interpretations[2]["meaning"]
-    interpretation_concern_second = interpretations[1]["interpretation"]
-    interpretation_concern_third = interpretations[2]["interpretation"]
-
-interpretation_overall = reader.interpretation_overall
 # -------------------------------------------------------------
 
 clear_screen()
@@ -254,6 +245,12 @@ if card_num == 3:
         if third_tarot_card[0] == cards[n]["name"]:
             third_tarot_card_ascii = cards[n]["card"]
 
+    reader.set_meaning_by_idx(1)
+    reader.set_interpretation_by_idx(1)
+    interpretations = reader.cards
+    interpretation_word_second = interpretations[1]["meaning"]
+    interpretation_concern_second = interpretations[1]["interpretation"]
+    
     clear_screen()
     print(second_tarot_card_ascii + "\n")
     slow_type(
@@ -270,6 +267,12 @@ if card_num == 3:
 
     next3 = input("계속하려면 Enter 키를 눌러주세요  \n ")
 
+    reader.set_meaning_by_idx(2)
+    reader.set_interpretation_by_idx(2)
+    interpretations = reader.cards
+    interpretation_word_third = interpretations[2]["meaning"]
+    interpretation_concern_third = interpretations[2]["interpretation"]
+    interpretations = reader.cards
     clear_screen()
     print(third_tarot_card_ascii + "\n")
     slow_type(
@@ -288,7 +291,8 @@ if card_num == 3:
 # ---- debugging ----------------------
 
 
-
+reader.set_interpretation_overall()
+interpretation_overall = reader.interpretation_overall
 clear_screen()
 slow_type(
     f"""
@@ -320,23 +324,6 @@ slow_type(
 
 rating = int(input("0부터 5까지 점수를 매겨주세요:  "))
 
-
-# Debugging ----------------------------------------------------------------
-interpretation_concern_first = "한글테스트한글테스트한글테스트한글테스트한글테스트\
-    한글테스트한글테스트한글테스트한글테스트한글테스트한글테스트"
-
-interpretation_concern_second = "한글테스트한글테스트한글테스트한글테스트한글테스트\
-    한글테스트한글테스트한글테스트한글테스트한글테스트한글테스트"
-
-interpretation_concern_third = "한글테스트한글테스트한글테스트한글테스트한글테스트\
-    한글테스트한글테스트한글테스트한글테스트한글테스트한글테스트"
-
-interpretation_overall = "한글테스트한글테스트한글테스트한글테스트한글테스트\
-    한글테스트한글테스트한글테스트한글테스트한글테스트한글테스트"
-# --------------------------------------------------------------------------
-
-
-
 # pdf generation
 pdf = PDF(f"{name}")
 pdf.add_page()
@@ -359,8 +346,6 @@ if card_num == 3:
     )
 pdf.add_result(interpretation_overall)
 pdf.output(f"{name}_TarotAI_Result.pdf")
-
-
 
 
 

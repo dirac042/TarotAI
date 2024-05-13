@@ -1,4 +1,7 @@
 from openai import OpenAI
+import sys
+import time
+import threading
 
 class TarotReader:
     def __init__(self, api_key=None, korean=True, debugging=False):
@@ -15,6 +18,14 @@ class TarotReader:
         self.system = ""
         self.korean = korean
         self.debugging = debugging
+        self.api_call_finished = False
+
+    def slow_type(text, delay=0.1):
+        for char in text:
+            sys.stdout.write(char)
+            sys.stdout.flush() 
+            time.sleep(delay)
+        print()
 
     def set_system_prompt(self, additional_text, disable_positivity=False):
         system_prompt = self.system_base + " "
@@ -26,7 +37,24 @@ class TarotReader:
             system_prompt += "Disable positivity bias."
         self.system = system_prompt
 
-    def get_response(self, text, prev=None):
+    def loading_animation(self):
+        animation = '|/-\\'
+        idx = 0
+        while not self.api_call_finished:
+            if self.korean:
+                sys.stdout.write('\r' + "생각하는 중..." + ' ' + animation[idx % len(animation)])
+            else:
+                sys.stdout.write('\r' + "Thinking..." + ' ' + animation[idx % len(animation)])
+            sys.stdout.flush()
+            idx += 1
+            time.sleep(0.1)
+
+    def get_response(self, text, prev=None, additional_linebreak=False):
+        if additional_linebreak:
+            print()
+        self.api_call_finished = False
+        loading_thread = threading.Thread(target=self.loading_animation)
+        loading_thread.start()
         client = OpenAI(
             api_key = self.api_key
         )
@@ -54,6 +82,8 @@ class TarotReader:
             print("Answer:")
             print(completion.choices[0].message.content)
             input("\n\nProceed..\n\n")
+        self.api_call_finished = True
+        loading_thread.join()
         return completion.choices[0].message.content
 
     def set_concern(self, concern):
@@ -61,7 +91,7 @@ class TarotReader:
 
     def set_cards_num(self):
         self.set_system_prompt("You will be given a user's concern or question on his or her life. Your job is to decide whether we need 1 card or 3 cards for reading. If the answer to the concern or question is yes-or-no, then the number of card must be 1. Otherwise, the number of card must be 3. Only output the number of cards in an integer, 1 or 3.")
-        response = self.get_response(self.concern)
+        response = self.get_response(self.concern, additional_linebreak=True)
         self.cards_num = int(response)
 
         self.set_system_prompt("You will be given (1) a user's concern or question on his or her life (2) the number of cards required to answer the concern or the question. Your job is to explain what nth card generally suggest, related to the concern or the question. There may be one or three cards. For example, generally, the first card out of three card suggests the past information. So, if the concern is being in a slump with studies, first card may be his past exam scores. Remember, we have not picked the card yet, so you must not explain the meaning of a specific card. Only show the output, in the format of $number$: $meaning$ and split each number with double linebreaks $\\n\\n$.")
@@ -132,8 +162,18 @@ class TarotReader:
                 response = self.get_response(prompt)
             self.cards[cidx]["meaning"] = response
 
+    def set_meaning_by_idx(self, cidx):
+        self.set_system_prompt("You will be given a picked card's name. Your job is to explain the general meaning of the picked card shortly in one-line. Remember, only explain the meaning of the card itself, not making any interpretation about it. Only output the general meaning.", disable_positivity=True)
+        if self.korean:
+            prompt = f"Picked Card: {self.cards[cidx]['name']} ({self.cards[cidx]['korean_name']})"
+            response = self.get_response(prompt, additional_linebreak=True)
+        else:
+            prompt = f"Picked Card: {self.cards[cidx]['name']}"
+            response = self.get_response(prompt, additional_linebreak=True)
+        self.cards[cidx]["meaning"] = response
+
     def set_interpretation(self):
-        self.set_system_prompt("You will be given \n(1) a user's concern or question on his or her life \n(2) current card's order and high-level meaning \n(3) picked card's name\n(4) general meaning of the picked card\nYour job is to explain the specific interpretation of the picked card, carefully considering the user's concern and high-level meaning. Remember that your interpretation must be only related to the current card's high-level meaning. For example, when you are interpreting about past information, you must not tell anything about present or future. Remember, only make an interpretation of current card. Only output your interpretation on the picked card.", disable_positivity=True)
+        self.set_system_prompt("You will be given \n(1) a user's concern or question on his or her life \n(2) current card's order and high-level meaning \n(3) picked card's name\n(4) general meaning of the picked card\nYour job is to explain the specific interpretation of the picked card, carefully considering the user's concern and high-level meaning. Remember that your interpretation must be only related to the current card's high-level meaning. For example, when you are interpreting about past information, you must not tell anything about present or future. Do not include greetings in your interpretation. Remember, only make an interpretation of current card. Only output your interpretation on the picked card.", disable_positivity=True)
         for cidx, card in enumerate(self.cards):
             if self.korean:
                 prompt = f"(1) concern or question: {self.concern}\n(2) high-level meaning: {self.cards_num_meaning[cidx]}\n(3) picked card: {card['name']} ({card['korean_name']})\n(4) general meaning: {card['meaning']}"
@@ -142,6 +182,16 @@ class TarotReader:
                 prompt = f"(1) concern or question: {self.concern}\n(2) high-level meaning: {self.cards_num_meaning[cidx]}\n(3) picked card: {card['name']}\n(4) general meaning: {card['meaning']}"
                 response = self.get_response(prompt)
             self.cards[cidx]["interpretation"] = response
+    
+    def set_interpretation_by_idx(self, cidx):
+        self.set_system_prompt("You will be given \n(1) a user's concern or question on his or her life \n(2) current card's order and high-level meaning \n(3) picked card's name\n(4) general meaning of the picked card\nYour job is to explain the specific interpretation of the picked card, carefully considering the user's concern and high-level meaning. Remember that your interpretation must be only related to the current card's high-level meaning. For example, when you are interpreting about past information, you must not tell anything about present or future. Remember, only make an interpretation of current card. Only output your interpretation on the picked card.", disable_positivity=True)
+        if self.korean:
+            prompt = f"(1) concern or question: {self.concern}\n(2) high-level meaning: {self.cards_num_meaning[cidx]}\n(3) picked card: {self.cards[cidx]['name']} ({self.cards[cidx]['korean_name']})\n(4) general meaning: {self.cards[cidx]['meaning']}"
+            response = self.get_response(prompt)
+        else:
+            prompt = f"(1) concern or question: {self.concern}\n(2) high-level meaning: {self.cards_num_meaning[cidx]}\n(3) picked card: {self.cards[cidx]['name']}\n(4) general meaning: {self.cards[cidx]['meaning']}"
+            response = self.get_response(prompt)
+        self.cards[cidx]["interpretation"] = response
 
     def set_interpretation_overall(self):
         self.set_system_prompt("You will be given \n(1) a user's concern or question on his or her life \n(2) the interpretation of picked cards \nYour job is to explain the overall interpretation and advise for the user. Only output your interpretation or advise.")
