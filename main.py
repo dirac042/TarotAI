@@ -3,8 +3,8 @@ import random
 import time
 import sys
 import os
+import datetime
 from tarot_reader import TarotReader
-
 
 # clear screen function
 def clear_screen():
@@ -545,6 +545,11 @@ if lang == 1:
 else:
     rating = int(input("0부터 5까지 점수를 매겨주세요:  "))
 rating
+
+current_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+record = f"{current_date} {name}의 rating: {rating}\n"
+with open("ratings.txt", "a") as f:
+    f.write(record)
 
 # pdf generation
 pdf = PDF(f"{name}")
