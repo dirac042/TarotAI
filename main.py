@@ -5,6 +5,7 @@ import sys
 import os
 from tarot_reader import TarotReader
 
+
 # clear screen function
 def clear_screen():
     os.system("cls" if os.name == "nt" else "clear")
@@ -14,7 +15,7 @@ def clear_screen():
 def slow_type(text, delay=0.1):
     for char in text:
         sys.stdout.write(char)
-        sys.stdout.flush() 
+        sys.stdout.flush()
         time.sleep(delay)
     print()
 
@@ -156,6 +157,7 @@ slow_type(
 
 # valid input을 위한 함수
 
+
 def get_valid_input(prompt, max_value):
     while True:
         try:
@@ -163,9 +165,12 @@ def get_valid_input(prompt, max_value):
             if 0 <= value <= max_value:
                 return value
             else:
-                print(f"\n숫자는 0부터 {max_value} 사이로 입력해야 해요. 다시 시도해주세요.")
+                print(
+                    f"\n숫자는 0부터 {max_value} 사이로 입력해야 해요. 다시 시도해주세요."
+                )
         except ValueError:
             print("\n유효한 숫자를 입력해주세요.")
+
 
 first_card = get_valid_input("0부터 43까지의 수를 적으세요: ", 43)
 
@@ -236,12 +241,12 @@ slow_type(
 next3 = input("계속하려면 Enter 키를 눌러주세요  \n")
 
 if card_num == 3:
-    for n in range(len(list_wo_first)):
+    for n in range(len(list_tarot_deck_mixed)):
         if second_tarot_card[0] == cards[n]["name"]:
             second_tarot_card_ascii = cards[n]["card"]
 
     # Problematic
-    for n in range(len(list_wo_second)):
+    for n in range(len(list_tarot_deck_mixed)):
         if third_tarot_card[0] == cards[n]["name"]:
             third_tarot_card_ascii = cards[n]["card"]
 
@@ -250,11 +255,11 @@ if card_num == 3:
     interpretations = reader.cards
     interpretation_word_second = interpretations[1]["meaning"]
     interpretation_concern_second = interpretations[1]["interpretation"]
-    
+
     clear_screen()
     print(second_tarot_card_ascii + "\n")
     slow_type(
-    f"""
+        f"""
 너가 두번째로 뽑은 카드는 {second_tarot_card[1]} (이)야.
 
 {interpretation_word_second}
@@ -262,7 +267,7 @@ if card_num == 3:
 {interpretation_concern_second}
 
 """,
-    delay_num,
+        delay_num,
     )
 
     next3 = input("계속하려면 Enter 키를 눌러주세요  \n ")
@@ -346,7 +351,6 @@ if card_num == 3:
     )
 pdf.add_result(interpretation_overall)
 pdf.output(f"{name}_TarotAI_Result.pdf")
-
 
 
 ## Ending
