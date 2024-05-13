@@ -19,7 +19,7 @@ def slow_type(text, delay=0.1):
     print()
 
 
-delay_num = 0.01  # 텍스트 딜레이 (0에 가까울수록 빨라짐)
+delay_num = 0.05  # 텍스트 딜레이 (0에 가까울수록 빨라짐)
 
 ## Importing Classes
 from opening import OpeningMessage
