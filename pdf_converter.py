@@ -61,11 +61,11 @@ class PDF(FPDF):
         self.point_return()
         self.add_y(5)
         self.add_x(70)
-        self.set_font("JetBrainsMono", "B", 15)
+        self.set_font("JetBrainsMono", "B", 13)
         self.multi_cell(0, 5, card_name)
         self.add_y(10)
         self.add_x(0)
-        self.set_font("SCDream2", "", 13)
+        self.set_font("SCDream2", "", 11)
         self.multi_cell(0, 7, comment)
 
         self.add_x(-70)
@@ -77,16 +77,23 @@ class PDF(FPDF):
         self.block_num += 1
 
     def add_result(self, result):
+        necessary_space = 40
+        result_height = (len(result) + 20) // 45 * 15
+        if self.current_y + necessary_space + result_height >= 275:
+            self.add_page()
+            self.current_y = 30
+        
         self.point_return()
         self.add_y(20)
-        self.set_font("SCDream5", "", 17)
+        self.set_font("SCDream5", "", 15)
         self.multi_cell(0, 7, "Result")
-        self.add_y(10)
-        self.set_font("SCDream2", "", 13)
-        self.multi_cell(0, 7, result)
 
+        self.add_y(10)
+        self.set_font("SCDream2", "", 11)
+        self.multi_cell(0, 7, result)
+        
         self.point_return()
-        self.add_y(max(15, (len(result) + 20) // 45 * 15))
+        self.add_y(max(15, result_height))
 
     def add_x(self, x):
         self.set_x(self.current_x + x)
