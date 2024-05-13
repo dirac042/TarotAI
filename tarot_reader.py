@@ -5,7 +5,7 @@ class TarotReader:
         self.api_key = api_key
         if not self.api_key:
             with open("my_api_key", "r") as mak:
-                self.api_key = mak.read()
+                self.api_key = mak.read().strip("\n").strip().strip('"').strip("'")
         self.concern = None     # str
         self.cards_num = None    # int 1 (yes or no) or 3 (past / present / future or non-yes or no)
         self.cards_num_meaning = None # meaning of each card in card num
