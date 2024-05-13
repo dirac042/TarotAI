@@ -110,7 +110,7 @@ class TarotReader:
                         elif "3:" in st:
                             st = st.replace("3:", "3rd card:")
                     meanings.append(st)
-        self.cards_num_meaning = meanings
+            self.cards_num_meaning = meanings
 
     def set_cards(self, picked_cards):
         self.cards = []
