@@ -51,7 +51,7 @@ def get_valid_input_lang(prompt):
 lang = get_valid_input_lang("Choose your Language (1, 2):  ")
 
 if lang == 1:
-    delay_num = 0
+    delay_num = 0.03
 else:
     delay_num = 0.05  # 텍스트 딜레이 (0에 가까울수록 빨라짐)
 
