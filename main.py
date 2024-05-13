@@ -3,7 +3,7 @@ import random
 import time
 import sys
 import os
-
+from tarot_reader import TarotReader
 
 # clear screen function
 def clear_screen():
@@ -27,9 +27,9 @@ from PandasToList import PandasToList
 from cards import cards
 from pdf_converter import PDF
 from emailsender import EmailSender
-from secret import sender_email, password  # .gitIgnore에 추가됨.
+# from secret import sender_email, password  # .gitIgnore에 추가됨.
 
-email_sender = EmailSender(sender_email, password)
+# email_sender = EmailSender(sender_email, password)
 
 
 ## Language Setting
@@ -102,14 +102,16 @@ slow_type(
     delay_num,
 )
 
-concern = input("너의 고민은 뭐니? \n\n고민:  ")
+reader = TarotReader()
 
+concern = input("너의 고민은 뭐니? \n\n고민:  ")
+reader.set_concern(concern)
 
 ## Card Selection - Info
-
-card_num = 3
+reader.set_cards_num()
+card_num = reader.cards_num
 # AI가 card_num을 정한다 ->  1  or 3
-card_num_desc = ""
+card_num_desc = "\n\n".join(reader.cards_num_meaning)
 # AI가 n번째 카드가 뜻하는 것을 적는다 (과거-현재-미래)
 #  concern을 중점으로...
 
@@ -119,7 +121,9 @@ slow_type(
     f"""
 좋아,  그럼 이제 카드를 뽑아볼까? 
 지금부터 총 {card_num}개의 카드를 뽑을거야.
+
 {card_num_desc}
+
 이해했어?  잘 모르겠으면 카드를 해석할 때  다시 알려줄게.
 
 """,
@@ -194,20 +198,28 @@ if card_num == 3:
     second_tarot_card = list_wo_first[int(second_card)]
     list_wo_second = list_wo_first[:second_card] + list_wo_first[second_card + 1 :]
     third_tarot_card = list_wo_second[int(third_card)]
-
+    reader.set_cards([first_tarot_card, second_tarot_card, third_tarot_card])
+else:
+    reader.set_cards([first_tarot_card])
 
 ## Interpretation
+reader.set_meaning()
+reader.set_interpretation()
+reader.set_interpretation_overall()
 
 # AI의 Tarot Interpretation -----------------------------------
-interpretation_word_first = ""
-interpretation_word_second = ""
-interpretation_word_third = ""
+interpretations = reader.cards
 
-interpretation_concern_first = ""
-interpretation_concern_second = ""
-interpretation_concern_third = ""
+interpretation_word_first = interpretations[0]["meaning"]
+interpretation_concern_first = interpretations[0]["interpretation"]
 
-interpretation_overall = ""
+if card_num == 3:
+    interpretation_word_second = interpretations[1]["meaning"]
+    interpretation_word_third = interpretations[2]["meaning"]
+    interpretation_concern_second = interpretations[1]["interpretation"]
+    interpretation_concern_third = interpretations[2]["interpretation"]
+
+interpretation_overall = reader.interpretation_overall
 # -------------------------------------------------------------
 
 clear_screen()
@@ -222,7 +234,7 @@ slow_type(
     f"""
 너가 처음으로 뽑은 카드는 {first_tarot_card[1]} (이)야. 
 
-이 카드는 {interpretation_word_first}를 뜻하지.
+{interpretation_word_first}
 
 {interpretation_concern_first}
 
@@ -237,6 +249,7 @@ if card_num == 3:
         if second_tarot_card[0] == cards[n]["name"]:
             second_tarot_card_ascii = cards[n]["card"]
 
+    # Problematic
     for n in range(len(list_wo_second)):
         if third_tarot_card[0] == cards[n]["name"]:
             third_tarot_card_ascii = cards[n]["card"]
@@ -247,7 +260,7 @@ if card_num == 3:
     f"""
 너가 두번째로 뽑은 카드는 {second_tarot_card[1]} (이)야.
 
-이 카드는 {interpretation_word_second}를 뜻해.
+{interpretation_word_second}
 
 {interpretation_concern_second}
 
@@ -263,7 +276,7 @@ if card_num == 3:
         f"""
 너가 세번째로 뽑은 카드는 {third_tarot_card[1]} (이)야.
 
-이 카드는 {interpretation_word_third}를 뜻해.
+{interpretation_word_third}
 
 {interpretation_concern_third}
 
