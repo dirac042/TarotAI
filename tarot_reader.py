@@ -68,7 +68,7 @@ class TarotReader:
         response = self.get_response(f"Concern: {self.concern}\nNumber of Cards: {self.cards_num}")
 
         if self.cards_num == 1:
-            st = response.strip("\n").strip()
+            s = response.strip("\n").strip()
             if self.korean:
                 st = s.strip("\n").strip()
                 if "1:" in st:
