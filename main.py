@@ -27,9 +27,9 @@ from PandasToList import PandasToList
 from cards import cards
 from pdf_converter import PDF
 from emailsender import EmailSender
-# from secret import sender_email, password  # .gitIgnore에 추가됨.
+from secret import sender_email, password  # .gitIgnore에 추가됨.
 
-# email_sender = EmailSender(sender_email, password)
+email_sender = EmailSender(sender_email, password)
 
 
 ## Language Setting
