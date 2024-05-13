@@ -153,8 +153,3 @@ class TarotReader:
                 prompt += f"(2-{cidx+1}) {self.cards_num_meaning[cidx]}\n- picked card: {card['name']}\n- general meaning: {card['meaning']}\n- interpretation: {card['interpretation']}\n\n"
         response = self.get_response(prompt)
         self.interpretation_overall = response
-
-if __name__ == "__main__":
-    reader = TarotReader()
-    reader.set_concern("I want to make a very beautiful girlfriend.")
-    reader.set_cards_num()
