@@ -20,9 +20,7 @@ class PDF(FPDF):
         italic_font_path = os.path.join(
             current_dir, "JetBrainsMono", "JetBrainsMonoNerdFont-Italic.ttf"
         )
-        korean_font_path = os.path.join(
-            current_dir, "S_Core_Dream", "SCDream2.ttf"
-        )
+        korean_font_path = os.path.join(current_dir, "S_Core_Dream", "SCDream2.ttf")
         korean_bold_font_path = os.path.join(
             current_dir, "S_Core_Dream", "SCDream5.ttf"
         )
@@ -58,22 +56,22 @@ class PDF(FPDF):
             self.current_y = 30
         art = "\n".join(line.strip() for line in ascii_card.split("\n"))
         self.point_return()
-        self.set_font("JetBrainsMono","",12)
+        self.set_font("JetBrainsMono", "", 12)
         self.multi_cell(0, 5, art)
         self.point_return()
         self.add_y(5)
         self.add_x(70)
-        self.set_font("JetBrainsMono","B",15)
+        self.set_font("JetBrainsMono", "B", 15)
         self.multi_cell(0, 5, card_name)
         self.add_y(10)
         self.add_x(0)
-        self.set_font("SCDream2","",13)
-        self.multi_cell(0, 5, comment)
+        self.set_font("SCDream2", "", 13)
+        self.multi_cell(0, 7, comment)
 
         self.add_x(-70)
         self.point_return()
-        self.add_y(max(100,(len(comment)//35 + len(card_name)//35 + 3)*5))
-        for i in range(((len(comment)//35 + len(card_name)//35 + 3)*5 )// 275):
+        self.add_y(max(100, (len(comment) // 35 + len(card_name) // 35 + 3) * 5))
+        for i in range(((len(comment) // 35 + len(card_name) // 35 + 3) * 5) // 275):
             self.add_page()
             self.current_y = 30
         self.block_num += 1
