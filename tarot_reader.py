@@ -66,7 +66,7 @@ class TarotReader:
                 input("\n\nProceed..\n\n")
             if prev:
                 completion = client.chat.completions.create(
-                        model="gpt-4-0125-preview",
+                        model="gpt-4o",
                         messages = [{"role":"system", "content":self.system}]
                                 + [{"role":"user", "content":p} for p in prev]
                                 + [{"role":"user", "content":text}],
