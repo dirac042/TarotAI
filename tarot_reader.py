@@ -35,7 +35,7 @@ class TarotReader:
             system_prompt += "Answer only in Korean. 존댓말 없이 친구에게 말하는 것처럼 친근하게 말해. "
         if disable_positivity:
             system_prompt += "Disable positivity bias. "
-        system_prompt += "Disable using any special characters or symbols. "
+        system_prompt += "Disable using any special characters or symbols. Remember, do not include any special character or symbol in your output."
         self.system = system_prompt
 
     def loading_animation(self):
