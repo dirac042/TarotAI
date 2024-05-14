@@ -187,7 +187,7 @@ you can write about a specific problem, like 'I'm not studying well these days' 
     if lang == 1:
         concern = input_exit("What's your concern?  \n\nConcern:  ")
         while True:
-            concern_true = input_exit(f"Is this your concern? (Y / n):\n\n{concern}\n\n")
+            concern_true = input_exit(f"\n\n{concern}\n\nIs this your concern? (Y / n): ")
             if concern_true in ["Y", "y"]:
                 break
             elif concern_true == "n":
@@ -196,7 +196,7 @@ you can write about a specific problem, like 'I'm not studying well these days' 
     else:
         concern = input_exit("너의 고민은 뭐니? \n\n고민:  ")
         while True:
-            concern_true = input_exit(f"이 고민이 맞니? (Y / n):\n\n{concern}\n\n")
+            concern_true = input_exit(f"\n\n{concern}\n\n이 고민이 맞니? (Y / n): ")
             if concern_true in ["Y", "y"]:
                 break
             elif concern_true == "n":
