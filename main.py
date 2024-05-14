@@ -35,9 +35,9 @@ from PandasToList import PandasToList
 from cards import cards
 from pdf_converter import PDF
 from emailsender import EmailSender
-from secret import sender_email, password  # .gitIgnore에 추가됨.
+# from secret import sender_email, password  # .gitIgnore에 추가됨.
 
-email_sender = EmailSender(sender_email, password)
+# email_sender = EmailSender(sender_email, password)
 
 while True:
 
@@ -188,7 +188,7 @@ you can write about a specific problem, like 'I'm not studying well these days' 
         concern = input_exit("What's your concern?  \n\nConcern:  ")
         while True:
             concern_true = input_exit(f"Is this your concern? (Y / n):\n\n{concern}\n\n")
-            if concern_true == "Y":
+            if concern_true in ["Y", "y"]:
                 break
             elif concern_true == "n":
                 print("\n")
@@ -550,8 +550,6 @@ To summarize the results,
 
 This is all I've seen of your future.
 How was it? I hope you liked the results.
-
-If you were to rate your satisfaction from 0 to 5, what score would you give me?
     
     """,
         delay_num,
@@ -563,39 +561,9 @@ If you were to rate your satisfaction from 0 to 5, what score would you give me?
 여기까지가 내가 본 미래의 전부야.  
 어땠어?  결과가 마음에 들었으면 좋겠네.  
 
-만족도를 0에서 5까지 매긴다면,  내게 몇 점을 줄 것 같아?
-
 """,
         delay_num,
     )
-
-    if lang == 1:
-        while True:
-            try:
-                rating = int(input_exit("Rate from 0 to 5:  "))
-                if not (rating <= 5 and rating >= 0):
-                    print("Rating must be between 0 and 5. Please try again.")
-                    continue
-                break
-            except:
-                print()
-                print("Rating must be between 0 and 5. Please try again.")
-    else:
-        while True:
-            try:
-                rating = int(input_exit("0부터 5까지 점수를 매겨주세요: "))
-                if not (rating <= 5 and rating >= 0):
-                    print("점수는 0부터 5 사이의 숫자로 입력해 주세요.")
-                    continue
-                break
-            except:
-                print()
-                print("점수는 0부터 5 사이의 숫자로 입력해 주세요.")
-
-    current_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    record = f"{current_date} {name}의 rating: {rating}\n"
-    with open("ratings.txt", "a") as f:
-        f.write(record)
 
     # pdf generation
     pdf = PDF(f"{name}")
@@ -620,14 +588,11 @@ If you were to rate your satisfaction from 0 to 5, what score would you give me?
     pdf.add_result(interpretation_overall)
     pdf.output(f"{name}_TarotAI_Result.pdf")
 
-
+    print()
     ## Ending
-    clear_screen()
-    print("===============================================================")
     if lang == 1:
         slow_type(
         f"""
-Thank you for your evaluation.
 It's time to say goodbye.
 
 Oh, can I have your email address before you go?
@@ -640,7 +605,6 @@ I'll summarize the results of today's reading into a pdf file and send it to you
     else:
         slow_type(
         f"""
-평가해줘서 고마워.
 이제 헤어질  시간이야.
 
 아 참, 가기 전에 이메일 주소 알려줄 수 있을까? 
@@ -695,7 +659,7 @@ I'll summarize the results of today's reading into a pdf file and send it to you
         print("Sending an email...  \n")
     else:
         print("이메일 보내는 중...  \n")
-    email_sender.send_email(receiver_email, subject, body, result_pdf)
+    # email_sender.send_email(receiver_email, subject, body, result_pdf)
 
     #  -------------------------------------------
 
