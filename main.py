@@ -35,9 +35,9 @@ from PandasToList import PandasToList
 from cards import cards
 from pdf_converter import PDF
 from emailsender import EmailSender
-# from secret import sender_email, password  # .gitIgnore에 추가됨.
+from secret import sender_email, password  # .gitIgnore에 추가됨.
 
-# email_sender = EmailSender(sender_email, password)
+email_sender = EmailSender(sender_email, password)
 
 while True:
 
@@ -695,7 +695,7 @@ I'll summarize the results of today's reading into a pdf file and send it to you
         print("Sending an email...  \n")
     else:
         print("이메일 보내는 중...  \n")
-    # email_sender.send_email(receiver_email, subject, body, result_pdf)
+    email_sender.send_email(receiver_email, subject, body, result_pdf)
 
     #  -------------------------------------------
 
