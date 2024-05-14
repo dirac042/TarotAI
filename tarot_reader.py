@@ -50,41 +50,47 @@ class TarotReader:
             time.sleep(0.1)
 
     def get_response(self, text, prev=None, additional_linebreak=False):
-        if additional_linebreak:
-            print()
-        self.api_call_finished = False
-        loading_thread = threading.Thread(target=self.loading_animation)
-        loading_thread.start()
-        client = OpenAI(
-            api_key = self.api_key
-        )
-        if self.debugging:
-            print("Query:")
-            print(self.system)
-            print(text)
-            input("\n\nProceed..\n\n")
-        if prev:
-            completion = client.chat.completions.create(
-                    model="gpt-4-0125-preview",
-                    messages = [{"role":"system", "content":self.system}]
-                             + [{"role":"user", "content":p} for p in prev]
-                             + [{"role":"user", "content":text}],
+        try:
+            if additional_linebreak:
+                print()
+            self.api_call_finished = False
+            loading_thread = threading.Thread(target=self.loading_animation)
+            loading_thread.start()
+            client = OpenAI(
+                api_key = self.api_key
             )
-        else:
-            completion = client.chat.completions.create(
-                    model="gpt-4-0125-preview",
-                    messages = [
-                        {"role":"system", "content":self.system},
-                        {"role":"user", "content":text}
-                    ],
-            )
-        if self.debugging:
-            print("Answer:")
-            print(completion.choices[0].message.content)
-            input("\n\nProceed..\n\n")
-        self.api_call_finished = True
-        loading_thread.join()
-        return completion.choices[0].message.content
+            if self.debugging:
+                print("Query:")
+                print(self.system)
+                print(text)
+                input("\n\nProceed..\n\n")
+            if prev:
+                completion = client.chat.completions.create(
+                        model="gpt-4-0125-preview",
+                        messages = [{"role":"system", "content":self.system}]
+                                + [{"role":"user", "content":p} for p in prev]
+                                + [{"role":"user", "content":text}],
+                )
+            else:
+                completion = client.chat.completions.create(
+                        model="gpt-4-0125-preview",
+                        messages = [
+                            {"role":"system", "content":self.system},
+                            {"role":"user", "content":text}
+                        ],
+                )
+            if self.debugging:
+                print("Answer:")
+                print(completion.choices[0].message.content)
+                input("\n\nProceed..\n\n")
+            self.api_call_finished = True
+            loading_thread.join()
+            return completion.choices[0].message.content
+        except:
+            print("\nBad internet connection. I'll retry, please wait...")
+            time.sleep(5)
+            return self.get_response(text, prev=prev, additional_linebreak=additional_linebreak)
+
 
     def set_concern(self, concern):
         self.concern = concern        
