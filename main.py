@@ -6,6 +6,7 @@ import os
 import datetime
 from tarot_reader import TarotReader
 
+
 # clear screen function
 def clear_screen():
     os.system("cls" if os.name == "nt" else "clear")
@@ -18,6 +19,7 @@ def slow_type(text, delay=0.1):
         sys.stdout.flush()
         time.sleep(delay)
     print()
+
 
 ## Importing Classes
 from opening import OpeningMessage
@@ -35,6 +37,7 @@ email_sender = EmailSender(sender_email, password)
 clear_screen()
 lang = print("Language:  \n\n1. English  \n2. 한국어  \n")
 
+
 def get_valid_input_lang(prompt):
     while True:
         try:
@@ -42,21 +45,21 @@ def get_valid_input_lang(prompt):
             if value == 1 or value == 2:
                 return value
             else:
-                print(
-                    f"\nTry Again."
-                )
+                print(f"\nTry Again.")
         except ValueError:
             print("\nTry again.")
+
 
 lang = get_valid_input_lang("Choose your Language (1, 2):  ")
 
 if lang == 1:
-    delay_num = 0.03
+    delay_num = 0.01
 else:
-    delay_num = 0.05  # 텍스트 딜레이 (0에 가까울수록 빨라짐)
+    delay_num = 0.01  # 텍스트 딜레이 (0에 가까울수록 빨라짐)
 
 # if lang = 1 -> English
 # if lang = 2 -> Korean
+
 
 def print_lang(eng, kor):
     if lang == 1:
@@ -114,11 +117,12 @@ Hey there! I'm TarotAI, an AI that can show you a glimpse of your future.
 I know school life can be tough, so thanks for taking the time to come and get a reading.
 
 Before we start, tell me your name. It can be a nickname, no need for your real name.
-""", delay_num
+""",
+        delay_num,
     )
 else:
     slow_type(
-    """
+        """
 
 안녕? 나는 오늘 너에게 잠깐이나마 미래를 보여줄 인공지능 TarotAI야.
 
@@ -127,8 +131,8 @@ else:
 시작하기 전에, 네 이름을 알려줘. 진짜 이름 말고, 가명으로 적어도 돼.
 
 """,
-    delay_num,
-)
+        delay_num,
+    )
 if lang == 1:
     name = input("Write your name (nickname):  ")
 else:
@@ -149,12 +153,12 @@ You can ask me about your fortune for a specific period, like 'How's my luck tod
 
 you can write about a specific problem, like 'I'm not studying well these days' or 'Can I date someone?'.
 """,
-    delay_num,
+        delay_num,
     )
 else:
     slow_type(f"\n네 이름은 {name}이구나.  반가워!", delay_num)
     slow_type(
-    """
+        """
 그럼 이제, 네 고민을 알려줘.
 
 '오늘 내 운세는 어때' 같이 특정 기간의 운세를 봐줄 수도 있고,
@@ -162,8 +166,8 @@ else:
 '요즘 공부가 잘 안 돼' 라던가 '내가 연애를 할 수 있을까' 처럼
 특정 고민을 적어줘도 좋아.
 """,
-    delay_num,
-)
+        delay_num,
+    )
 
 reader = TarotReader()
 
@@ -199,11 +203,12 @@ I'm going to draw a total of {card_num} cards from now on.
 {card_num_desc}
 
 Got it? If you don't understand, I'll explain it to you again when interpreting the cards.
-""", delay_num
-)
-else: 
+""",
+        delay_num,
+    )
+else:
     slow_type(
-    f"""
+        f"""
 좋아,  그럼 이제 카드를 뽑아볼까? 
 지금부터 총 {card_num}개의 카드를 뽑을거야.
 
@@ -212,8 +217,8 @@ else:
 이해했어?  잘 모르겠으면 카드를 해석할 때  다시 알려줄게.
 
 """,
-    delay_num,
-)
+        delay_num,
+    )
 
 if lang == 1:
     next = input("Press Enter to continue.  \n")
@@ -241,11 +246,11 @@ so tell me the number of the card you want to draw.
 Calm your mind and write down the number of the card you want to draw from the top.
     
 """,
-    delay_num,
-)
+        delay_num,
+    )
 else:
     slow_type(
-    """
+        """
 
 좋아,  그럼 이제 카드를 뽑아볼까?
 
@@ -255,8 +260,9 @@ else:
 마음을 가다듬고,  맨 위에서 몇번째 카드를 뽑을지 적어줘.
 
 """,
-    delay_num,
-)
+        delay_num,
+    )
+
 
 # valid input을 위한 함수
 def get_valid_input(prompt, max_value):
@@ -273,31 +279,42 @@ def get_valid_input(prompt, max_value):
                 else:
                     print(
                         f"\n숫자는 0부터 {max_value} 사이로 입력해야 해요. 다시 시도해주세요."
-                )
+                    )
         except ValueError:
             if lang == 1:
                 print("\nPlease enter a valid number.")
             else:
                 print("\n유효한 숫자를 입력해주세요.")
 
+
 if lang == 1:
-    first_card = get_valid_input("Write down the number of the card you want to draw (from 0 to 43): ", 43)
+    first_card = get_valid_input(
+        "Write down the number of the card you want to draw (from 0 to 43): ", 43
+    )
 else:
     first_card = get_valid_input("0부터 43까지의 수를 적으세요: ", 43)
 first_card
 
 if card_num == 3:
     if lang == 1:
-        slow_type("\nI've drawn the first card. Now, let's draw the next card.", delay_num)
-        second_card = get_valid_input("Write down the number of the card you want to draw (from 0 to 42): ", 42)
+        slow_type(
+            "\nI've drawn the first card. Now, let's draw the next card.", delay_num
+        )
+        second_card = get_valid_input(
+            "Write down the number of the card you want to draw (from 0 to 42): ", 42
+        )
     else:
         slow_type("\n첫번째 카드를 뽑았어,  그럼 다음 카드를 뽑아볼까?", delay_num)
         second_card = get_valid_input("0부터 42까지의 수를 적으세요: ", 42)
     second_card
 
     if lang == 1:
-        slow_type("\nI've drawn the second card. Now, let's draw the last card.", delay_num)
-        third_card = get_valid_input("Write down the number of the card you want to draw (from 0 to 41): ", 41)
+        slow_type(
+            "\nI've drawn the second card. Now, let's draw the last card.", delay_num
+        )
+        third_card = get_valid_input(
+            "Write down the number of the card you want to draw (from 0 to 41): ", 41
+        )
     else:
         slow_type("\n이제 마지막으로 세번째 카드를 뽑아보자.", delay_num)
         third_card = get_valid_input("0부터 41까지의 수를 적으세요: ", 41)
@@ -313,17 +330,17 @@ if lang == 1:
 Great! Now, let's look at the cards one by one and get a glimpse of the future!
 Are you ready?
 """,
-    delay_num,
-)
+        delay_num,
+    )
 else:
     slow_type(
-    """
+        """
 잘했어!
 이제 카드를 하나씩 살펴보면서 미래를 살짝 엿보도록 하자!
 준비됐어?
 """,
-    delay_num,
-)
+        delay_num,
+    )
 
 if lang == 1:
     next2 = input("Press Enter to continue.  \n")
@@ -372,11 +389,11 @@ The first card you drew is {first_tarot_card[0]}.
 {interpretation_concern_first}
 
 """,
-    delay_num,
-)
+        delay_num,
+    )
 else:
     slow_type(
-    f"""
+        f"""
 너가 처음으로 뽑은 카드는 {first_tarot_card[1]} (이)야. 
 
 {interpretation_word_first}
@@ -384,8 +401,8 @@ else:
 {interpretation_concern_first}
 
 """,
-    delay_num,
-)
+        delay_num,
+    )
 
 if lang == 1:
     next3 = input("Press Enter to continue.  \n")
@@ -420,11 +437,11 @@ The second card you drew is {second_tarot_card[0]}.
 {interpretation_concern_second}
 
 """,
-        delay_num,
-    )
+            delay_num,
+        )
     else:
         slow_type(
-        f"""
+            f"""
 너가 두번째로 뽑은 카드는 {second_tarot_card[1]} (이)야.
 
 {interpretation_word_second}
@@ -432,8 +449,8 @@ The second card you drew is {second_tarot_card[0]}.
 {interpretation_concern_second}
 
 """,
-        delay_num,
-    )
+            delay_num,
+        )
     if lang == 1:
         next3 = input("Press Enter to continue.  \n")
     else:
@@ -450,7 +467,7 @@ The second card you drew is {second_tarot_card[0]}.
     print(third_tarot_card_ascii + "\n")
     if lang == 1:
         slow_type(
-        f"""
+            f"""
 The third card you drew is {third_tarot_card[0]}.
 
 {interpretation_word_third}
@@ -458,11 +475,11 @@ The third card you drew is {third_tarot_card[0]}.
 {interpretation_concern_third}
 
 """,
-        delay_num,
-    )
+            delay_num,
+        )
     else:
         slow_type(
-        f"""
+            f"""
 너가 세번째로 뽑은 카드는 {third_tarot_card[1]} (이)야.
 
 {interpretation_word_third}
@@ -470,8 +487,8 @@ The third card you drew is {third_tarot_card[0]}.
 {interpretation_concern_third}
 
 """,
-        delay_num,
-    )
+            delay_num,
+        )
     if lang == 1:
         next3 = input("Press Enter to continue.  \n")
     else:
@@ -493,18 +510,18 @@ To summarize the results,
 {interpretation_overall}
 
 """,
-    delay_num,
-)
+        delay_num,
+    )
 else:
     slow_type(
-    f"""
+        f"""
 결과를 요약해보면,
 
 {interpretation_overall}
 
 """,
-    delay_num,
-)
+        delay_num,
+    )
 if lang == 1:
     next3 = input("Press Enter to continue.  \n")
 else:
@@ -529,7 +546,7 @@ If you were to rate your satisfaction from 0 to 5, what score would you give me?
     )
 else:
     slow_type(
-    f"""
+        f"""
 
 여기까지가 내가 본 미래의 전부야.  
 어땠어?  결과가 마음에 들었으면 좋겠네.  
@@ -537,13 +554,39 @@ else:
 만족도를 0에서 5까지 매긴다면,  내게 몇 점을 줄 것 같아?
 
 """,
-    delay_num,
-)
+        delay_num,
+    )
 
 if lang == 1:
     rating = int(input("Rate from 0 to 5:  "))
 else:
     rating = int(input("0부터 5까지 점수를 매겨주세요:  "))
+
+
+def get_valid_input_rating(prompt, max_value):
+    while True:
+        try:
+            value = int(input(prompt))
+            if 0 <= value <= max_value:
+                return value
+            else:
+                if lang == 1:
+                    print(
+                        f"\nPlease enter a number between 0 and {max_value}. Try again."
+                    )
+                else:
+                    print(
+                        f"\n숫자는 0부터 {max_value} 사이로 입력해야 해요. 다시 시도해주세요."
+                    )
+        except ValueError:
+            if lang == 1:
+                print("\nPlease enter a valid number.")
+            else:
+                print("\n유효한 숫자를 입력해주세요.")
+
+
+get_valid_input_rating(rating, 5)
+
 rating
 
 current_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -593,7 +636,7 @@ I'll summarize the results of today's reading into a pdf file and send it to you
     )
 else:
     slow_type(
-    f"""
+        f"""
 평가해줘서 고마워.
 이제 헤어질  시간이야.
 
@@ -602,8 +645,8 @@ else:
 오늘 본 점의 결과를 pdf 파일로 정리해서 이메일로 보내줄게!
 
 """,
-    delay_num,
-)
+        delay_num,
+    )
 
 while True:
     try:
@@ -667,11 +710,11 @@ Don't forget to get a stamp at the booth before you go!
 Thanks for coming.  Let's see each other again next time.  Goodbye!
 
 """,
-    delay_num,
-)
+        delay_num,
+    )
 else:
     slow_type(
-    f"""
+        f"""
 {receiver_email}
 이 주소로 이메일을 보냈어!  나중에 꼭 확인해봐!
 
@@ -681,8 +724,8 @@ else:
 와줘서 고마워.  다음 기회가 되면 또 보자.  안녕!
 
 """,
-    delay_num,
-)
+        delay_num,
+    )
 
 if lang == 1:
     next5 = input("Press Enter to end.  Thank you.")
