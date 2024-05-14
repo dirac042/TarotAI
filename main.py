@@ -11,7 +11,7 @@ warnings.filterwarnings("ignore")
 
 def input_exit(message):
     user_input = input(message)
-    if message == "brains":
+    if user_input == "brains":
         sys.exit()
     return user_input
 
@@ -192,16 +192,16 @@ you can write about a specific problem, like 'I'm not studying well these days' 
                 break
             elif concern_true == "n":
                 print("\n")
-                concern = input_exit("Is this your concern? \n\nConcern:  ")
+                concern = input_exit("What is your concern? ")
     else:
         concern = input_exit("너의 고민은 뭐니? \n\n고민:  ")
         while True:
             concern_true = input_exit(f"이 고민이 맞니? (Y / n):\n\n{concern}\n\n")
-            if concern_true == "Y":
+            if concern_true in ["Y", "y"]:
                 break
             elif concern_true == "n":
                 print("\n")
-                concern = input_exit("너의 고민은 뭐니? \n\n고민:  ")
+                concern = input_exit("너의 고민은 뭐니?  ")
         
     reader.set_concern(concern)
 
@@ -659,7 +659,18 @@ I'll summarize the results of today's reading into a pdf file and send it to you
         print("Sending an email...  \n")
     else:
         print("이메일 보내는 중...  \n")
-    email_sender.send_email(receiver_email, subject, body, result_pdf)
+
+    while True:
+        try:
+            email_sender.send_email(receiver_email, subject, body, result_pdf)
+            break
+        except:
+            if lang == 1:  
+                receiver_email = input("Email address is wrong. Please rewrite your email: ")
+            else:
+                receiver_email = input("이메일 주소가 잘못되었어. 다시 입력해 줄래?: ")
+
+
 
     #  -------------------------------------------
 
